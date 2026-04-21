@@ -1,0 +1,52 @@
+/* Newsletter Popup — estils frontend */
+
+/* Amaga labels del popup de Benchmark mantenint-los accessibles */
+[class*="formbox-field-label_"] {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	padding: 0 !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	clip: rect(0, 0, 0, 0) !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+}
+
+/* Banner d'error inline (substitueix window.alert) */
+.anp-inline-error {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	background: #fef2f2;
+	border: 1px solid #fecaca;
+	border-left: 4px solid #dc2626;
+	color: #991b1b;
+	padding: 12px 14px;
+	margin: 20px 40px;
+	border-radius: 6px;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.4;
+	text-align: left;
+	box-sizing: border-box;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+	animation: anpFadeIn 0.25s ease;
+}
+
+.anp-inline-error__icon {
+	width: 20px;
+	height: 20px;
+	flex-shrink: 0;
+	color: #dc2626;
+	margin-top: 1px;
+}
+
+.anp-inline-error__text {
+	flex: 1;
+}
+
+@keyframes anpFadeIn {
+	from { opacity: 0; transform: translateY(-4px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
