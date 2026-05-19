@@ -2,12 +2,13 @@
 /**
  * Plugin Name: Newsletter Popup
  * Description: Mostra un popup de subscripció a la newsletter integrat amb Benchmark Email. Configurable des d'una sola pantalla.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: Creagia
  * License: GPL-2.0+
  * Text Domain: ateneu-newsletter-popup
  *
  * Changelog:
+ *  1.1.1 - Auto-actualització des de GitHub (plugin-update-checker).
  *  1.1.0 - El popup (script de Benchmark + cookie bm_popup_shown) NO es carrega
  *          fins que l'usuari accepta la categoria de màrqueting a Complianz
  *          (compliment RGPD/LSSI). Si no hi ha gestor de consentiment, manté
@@ -18,11 +19,25 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'ANP_VERSION', '1.1.0' );
+define( 'ANP_VERSION', '1.1.1' );
 define( 'ANP_PLUGIN_FILE', __FILE__ );
 define( 'ANP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ANP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'ANP_OPTION_KEY', 'anp_settings' );
+
+/* --------------------------------------------------------------------------
+ * Auto-actualització des de GitHub (plugin-update-checker)
+ * -------------------------------------------------------------------------- */
+if ( file_exists( ANP_PLUGIN_DIR . 'plugin-update-checker/plugin-update-checker.php' ) ) {
+    require_once ANP_PLUGIN_DIR . 'plugin-update-checker/plugin-update-checker.php';
+    $anp_update_checker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+        'https://github.com/prodelpe/ateneu-newsletter-popup/',
+        ANP_PLUGIN_FILE,
+        'ateneu-newsletter-popup'
+    );
+    // Fer servir el zip adjunt a la release (estructura de carpeta correcta).
+    $anp_update_checker->getVcsApi()->enableReleaseAssets();
+}
 
 /**
  * Retorna les opcions del plugin amb defaults aplicats.
