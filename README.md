@@ -34,6 +34,12 @@ add_filter( 'anp_consent_category', function () { return 'marketing'; } );
 
 ## Changelog
 
+### 1.1.2
+- Versió de prova del sistema d'auto-actualització.
+
+### 1.1.1
+- Auto-actualització des de GitHub (plugin-update-checker).
+
 ### 1.1.0
 - El popup (script de Benchmark + cookie `bm_popup_shown`) no es carrega fins que
   l'usuari accepta la categoria de màrqueting a Complianz (RGPD/LSSI).

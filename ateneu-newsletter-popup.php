@@ -2,12 +2,13 @@
 /**
  * Plugin Name: Newsletter Popup
  * Description: Mostra un popup de subscripció a la newsletter integrat amb Benchmark Email. Configurable des d'una sola pantalla.
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: Creagia
  * License: GPL-2.0+
  * Text Domain: ateneu-newsletter-popup
  *
  * Changelog:
+ *  1.1.2 - Versió de prova del sistema d'auto-actualització.
  *  1.1.1 - Auto-actualització des de GitHub (plugin-update-checker).
  *  1.1.0 - El popup (script de Benchmark + cookie bm_popup_shown) NO es carrega
  *          fins que l'usuari accepta la categoria de màrqueting a Complianz
@@ -19,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'ANP_VERSION', '1.1.1' );
+define( 'ANP_VERSION', '1.1.2' );
 define( 'ANP_PLUGIN_FILE', __FILE__ );
 define( 'ANP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ANP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
