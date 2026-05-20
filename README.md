@@ -6,33 +6,21 @@ Popup de subscripció a la newsletter integrat amb **Benchmark Email**, configur
 
 - Popup de subscripció a partir del codi *embed* de Benchmark Email.
 - Configuració d'una sola pantalla: activar/desactivar, codi de Benchmark i dies entre visualitzacions.
-- **Compliment RGPD/LSSI:** el script de Benchmark i la cookie `bm_popup_shown` **només es carreguen si l'usuari ha acceptat la categoria de màrqueting** a Complianz. Si no hi ha cap gestor de consentiment instal·lat, manté el comportament clàssic (no trenca webs sense CMP).
+- Cookie `bm_popup_shown` per controlar la freqüència entre visualitzacions per usuari.
 
 ## Requisits
 
 - WordPress 5.5+
-- Recomanat: plugin **Complianz** (gestió del consentiment de cookies).
 
 ## Instal·lació / actualització
 
 WP Admin → **Connectors → Afegeix nou → Puja un connector** → seleccionar el `.zip` → *Substitueix l'actual amb el penjat*.
 
-## Comportament del consentiment
-
-- **Abans del consentiment:** el popup NO apareix i no es carrega cap recurs de Benchmark ni cap cookie.
-- **Després d'acceptar màrqueting:** el popup apareix amb normalitat (a la recàrrega o navegació següent).
-
-### Filtres per a personalització
-
-```php
-// Desactivar la comprovació de consentiment (no recomanat).
-add_filter( 'anp_require_consent', '__return_false' );
-
-// Canviar la categoria de consentiment exigida (per defecte 'marketing').
-add_filter( 'anp_consent_category', function () { return 'marketing'; } );
-```
-
 ## Changelog
+
+### 1.1.3
+- Es retira el gate de consentiment de cookies: el popup torna a mostrar-se sempre la primera vegada. La cookie `bm_popup_shown` continua controlant la freqüència entre visualitzacions.
+- S'eliminen els filtres `anp_require_consent` i `anp_consent_category` (ja no s'usen).
 
 ### 1.1.2
 - Versió de prova del sistema d'auto-actualització.

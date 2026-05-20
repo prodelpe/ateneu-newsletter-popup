@@ -2,12 +2,15 @@
 /**
  * Plugin Name: Newsletter Popup
  * Description: Mostra un popup de subscripció a la newsletter integrat amb Benchmark Email. Configurable des d'una sola pantalla.
- * Version: 1.1.2
+ * Version: 1.1.3
  * Author: Creagia
  * License: GPL-2.0+
  * Text Domain: ateneu-newsletter-popup
  *
  * Changelog:
+ *  1.1.3 - Es retira el gate de consentiment de cookies: el popup torna a
+ *          mostrar-se sempre la primera vegada (la cookie bm_popup_shown
+ *          continua controlant la freqüència entre visualitzacions).
  *  1.1.2 - Versió de prova del sistema d'auto-actualització.
  *  1.1.1 - Auto-actualització des de GitHub (plugin-update-checker).
  *  1.1.0 - El popup (script de Benchmark + cookie bm_popup_shown) NO es carrega
@@ -20,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'ANP_VERSION', '1.1.2' );
+define( 'ANP_VERSION', '1.1.3' );
 define( 'ANP_PLUGIN_FILE', __FILE__ );
 define( 'ANP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ANP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -65,29 +68,6 @@ function anp_extract_benchmark_url( $script ) {
         return $m[1];
     }
     return null;
-}
-
-/**
- * Comprova si es pot carregar l'script de Benchmark (tercer) i posar-ne la cookie.
- *
- * RGPD/LSSI: cap script de tercer ni cookie no necessària abans del consentiment.
- * Si Complianz és actiu, exigeix el consentiment de la categoria de màrqueting.
- * Si no hi ha cap gestor de consentiment instal·lat, manté el comportament
- * anterior per no trencar la subscripció en webs sense CMP.
- *
- * Filtres:
- *  - anp_require_consent  : retorna false per desactivar la comprovació.
- *  - anp_consent_category : canvia la categoria (per defecte 'marketing').
- */
-function anp_marketing_consent_ok() {
-    if ( ! apply_filters( 'anp_require_consent', true ) ) {
-        return true;
-    }
-    if ( function_exists( 'cmplz_has_consent' ) ) {
-        $category = apply_filters( 'anp_consent_category', 'marketing' );
-        return (bool) cmplz_has_consent( $category );
-    }
-    return true;
 }
 
 /* --------------------------------------------------------------------------
@@ -149,12 +129,6 @@ function anp_render_settings_page() {
     <div class="wrap">
         <h1>Newsletter Popup</h1>
         <p>Configura el popup de subscripció a la newsletter. Enganxa el codi de Benchmark Email i activa'l.</p>
-
-        <?php if ( ! function_exists( 'cmplz_has_consent' ) ) : ?>
-            <div class="notice notice-warning"><p>
-                <strong>Avís:</strong> no s'ha detectat Complianz. El popup es mostrarà sense esperar el consentiment de cookies. Instal·la un gestor de consentiment per complir el RGPD.
-            </p></div>
-        <?php endif; ?>
 
         <?php settings_errors( ANP_OPTION_KEY ); ?>
 
@@ -249,9 +223,6 @@ function anp_enqueue_assets() {
     if ( ! $url ) {
         return;
     }
-    if ( ! anp_marketing_consent_ok() ) {
-        return;
-    }
 
     wp_enqueue_style(
         'anp-popup',
@@ -292,9 +263,6 @@ function anp_maybe_start_buffer() {
         return;
     }
     if ( ! anp_extract_benchmark_url( $settings['benchmark_script'] ) ) {
-        return;
-    }
-    if ( ! anp_marketing_consent_ok() ) {
         return;
     }
 
